@@ -1,0 +1,2 @@
+docker run -it --rm --runtime=nvidia nvidia/cuda:10.1-cudnn7-devel nvidia-smi
+
