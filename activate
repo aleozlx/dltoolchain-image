@@ -1,2 +1,6 @@
-docker run -it --rm --runtime=nvidia nvidia/cuda:10.1-cudnn7-devel nvidia-smi
+# IMAGE=nvidia/cuda:10.1-cudnn7-devel
+IMAGE=tensorflow/tensorflow:1.14.0-gpu-py3
+# IMAGE=aleozlx/dltoolchain
+
+docker run -it --rm --runtime=nvidia -u$UID -v $(readlink -f ..):/usr/lib/dltoolchain $IMAGE
 
