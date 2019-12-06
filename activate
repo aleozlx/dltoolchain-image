@@ -1,6 +1,19 @@
-# IMAGE=nvidia/cuda:10.1-cudnn7-devel
-IMAGE=tensorflow/tensorflow:1.14.0-gpu-py3
-# IMAGE=aleozlx/dltoolchain
+# IMAGE="nvidia/cuda:10.1-cudnn7-devel"
+# IMAGE="aleozlx/dltoolchain"
 
-docker run -it --rm --runtime=nvidia -u$UID -v $(readlink -f ..):/usr/lib/dltoolchain $IMAGE
+case "$1" in
+  dev)
+    echo "Activating dev environment"
+    IMAGE="tensorflow/tensorflow:devel-gpu-py3" ;;
+  *)
+    IMAGE="tensorflow/tensorflow:1.14.0-gpu-py3" ;;
+esac
+IMAGE="aleozlx/dltoolchain"
+
+STORAGE="/data/user/aleozlx"
+TOOLCHAIN_PATH="$STORAGE/builds/dltoolchain"
+WORKDIR_PATH="$STORAGE/workspaces/dhsmil"
+DATASET_PATH="$STORAGE/RESISC45/original"
+
+docker run -it --rm --runtime=nvidia -u "$(id -u):$(id -g)" -e HOST_PERMS="$(id -u):$(id -g)" -e USER -e HOME="/workspace" -v "$TOOLCHAIN_PATH:/usr/lib/dltoolchain" -v "$WORKDIR_PATH:/workspace" -v "$DATASET_PATH:/datasets/R45" -w /workspace $IMAGE
 
